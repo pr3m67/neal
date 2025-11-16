@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .section {
+            padding: 3rem 2rem;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cover-page {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #667eea;
+            margin: 0 auto 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-top: 1rem;
+            opacity: 0.9;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .cover-page h1 {
+            color: white;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #667eea;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .skill-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: white;
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toc-list li:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .swot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .swot-item {
+            padding: 1.5rem;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .swot-strengths { background: #28a745; }
+        .swot-weaknesses { background: #dc3545; }
+        .swot-opportunities { background: #17a2b8; }
+        .swot-threats { background: #ffc107; color: #333; }
+
+        .testimonial {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            text-align: right;
+            margin-top: 1rem;
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-item {
+            padding: 1rem;
+            margin: 1rem 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            width: 15px;
+            height: 15px;
+            background: #667eea;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show cover page by default
+            showSection('cover');
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="nav-brand">Neal Patel - Portfolio</div>
+                <div class="nav-links">
+                    <a href="#cover" onclick="showSection('cover')">Home</a>
+                    <a href="#toc" onclick="showSection('toc')">Contents</a>
+                    <a href="#intro" onclick="showSection('intro')">About</a>
+                    <a href="#resume" onclick="showSection('resume')">Resume</a>
+                    <a href="#projects" onclick="showSection('projects')">Projects</a>
+                    <a href="#skills" onclick="showSection('skills')">Skills</a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Cover Page -->
+        <section id="cover" class="section active cover-page">
+            <div class="profile-photo">
+                <img src="neal.jpeg">
+            </div>
+            <h1>Neal Patel</h1>
+            <p style="font-size: 1.2rem;">B.Tech Computer Science and Engineering</p>
+            <p>Pandit Deendayal Energy University, Gandhinagar</p>
+            <p style="margin-top: 0.5rem;">📧 nealpatel1875@gmail.com | 📱 8153841890</p>
+            <p style="margin-top: 0.5rem;">🌐 Languages: English, Hindi, Gujarati</p>
+            <a href="https://www.linkedin.com/in/n-e-a-l" target="_blank" class="btn" style="margin-top: 1rem;">LinkedIn Profile</a>
+            <p style="margin-top: 1rem;">Submission Date: November 16, 2025</p>
+            <p class="tagline">"Passionate about Data Analysis and problem-solving through research-driven innovation"</p>
+            <a href="#toc" onclick="showSection('toc')" class="btn" style="margin-top: 2rem;">Explore My Journey</a>
+        </section>
+
+        <!-- Table of Contents -->
+        <section id="toc" class="section">
+            <h1>Table of Contents</h1>
+            <ul class="toc-list">
+                <li onclick="showSection('cover')">1. Cover Page</li>
+                <li onclick="showSection('intro')">2. Introduction and Learning Philosophy</li>
+                <li onclick="showSection('resume')">3. Resume/CV</li>
+                <li onclick="showSection('projects')">4. Projects and Research</li>
+                <li onclick="showSection('skills')">5. Skills</li>
+            </ul>
+        </section>
+
+        <!-- Introduction -->
+        <section id="intro" class="section">
+            <h1>Introduction and Learning Philosophy</h1>
+            <div class="card">
+                <h3>My Learning Journey</h3>
+                <p>I am a second-year Computer Science student at Pandit Deendayal Energy University. I love Data Analysis and solving problems. I want to work on research projects and solve real-world problems.</p>
+                <p>I have learned Computational Thinking, C programming, and data structures. During my internship, I worked with experienced people and learned many new things.</p>
+                <p>I like using technology to help people and solve important problems. Every project I do helps me learn something new.</p>
+            </div>
+
+            <div class="card">
+                <h3>Core Values</h3>
+                <ul>
+                    <li><strong>Curiosity:</strong> I like to ask questions and learn new things to find better solutions.</li>
+                    <li><strong>Integrity:</strong> I believe technology should help people in the right way.</li>
+                    <li><strong>Teamwork:</strong> I work well with others to solve problems together.</li>
+                    <li><strong>Excellence:</strong> I try to do my best work and keep learning new skills.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>My Learning Philosophy</h3>
+                <p>I believe in learning by doing. I learn best when I work on real projects and practice what I study. My approach includes:</p>
+                <ul>
+                    <li>Connecting different subjects to solve problems better</li>
+                    <li>Learning through hands-on projects and real work</li>
+                    <li>Thinking about what I learn and how to improve</li>
+                    <li>Always learning new things throughout my life</li>
+                </ul>
+                <p>This way of learning helps me in my studies and when I face new challenges.</p>
+            </div>
+        </section>
+
+        <!-- Resume -->
+        <section id="resume" class="section">
+            <h1>Resume/CV</h1>
+            
+            <div class="card">
+                <h2>Contact Information</h2>
+                <p><strong>📍 Location:</strong> Vadodara, India</p>
+                <p><strong>📧 Email:</strong> nealpatel1875@gmail.com</p>
+                <p><strong>📱 Phone:</strong> +91 8153841890</p>
+                <p><strong>🔗 LinkedIn:</strong> <a href="https://www.linkedin.com/in/n-e-a-l" target="_blank" style="color: #667eea;">linkedin.com/in/n-e-a-l</a></p>
+                <p><strong>🗣️ Languages:</strong> English, Hindi, Gujarati</p>
+                <p><strong>📅 Date of Birth:</strong> 18 July, 2006</p>
+            </div>
+
+            <div class="card">
+                <h2>Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>B.Tech Computer Science and Engineering</h3>
+                        <p><strong>Pandit Deendayal Energy University, Gandhinagar</strong> | July 2023 - July 2027</p>
+                        <p>CPI: 8.6/10</p>
+                        <p>What I'm learning: Data Structures, C Programming, Computational Thinking, Object-Oriented Programming in Java, Discrete Mathematical Structures</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Higher Secondary Education</h3>
+                        <p><strong>The Mother's School, Vadodara, India</strong> | 2021 - 2023</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Internship Experience</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>Social And Civic Intern</h3>
+                        <p><strong>Baroda Youth Federation, Vadodara</strong> | May 2024 - June 2024</p>
+                        <ul>
+                            <li>Helped with social activities in rural areas</li>
+                            <li>Supported people for social engagement and personal growth</li>
+                            <li>Worked with community members</li>
+                            <li>Improved my communication skills</li>
+                            <li>Learned about social work and helping communities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Areas of Interest</h2>
+                <ul>
+                    <li>Data Analysis</li>
+                    <li>Problem-solving</li>
+                    <li>Computer Programming</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Technical Skills</h2>
+                <p><strong>Programming Languages:</strong> C, Java</p>
+                <p><strong>What I Know:</strong> Data Structures, Discrete Mathematical Structures, Computational Thinking, Object-Oriented Programming in Java</p>
+                <p><strong>Tools:</strong> Git, Code Editors</p>
+            </div>
+
+            <div class="card">
+                <h2>Soft Skills</h2>
+                <ul>
+                    <li><strong>Fast Learner:</strong></li>
+                    <li><strong>Dedicated Team Player:</strong></li>
+                    <li><strong>Communication:</strong></li>
+                    <li><strong>Problem-Solving:</strong></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Volunteer Experience</h2>
+                <ul>
+                    <li><strong>Coding Mentor</strong> - NGO Teaching Underprivileged Children (2023-2024)</li>
+                    <li><strong>Volunteer</strong> - Community Service Events and Blood Donation Camps</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Co-Curricular Activities</h2>
+                <ul>
+                    <li>Member, School Robotics Club (2021-2023)</li>
+                    <li>Participant, National Level Coding Competitions</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Hobbies and Interests</h2>
+                <ul>
+                    <li><strong>⚽ Football:</strong> Passionate about playing football, fostering teamwork, physical fitness, and strategic thinking</li>
+                    <li><strong>♟️ Chess:</strong> Enjoy strategic chess games that enhance analytical thinking and problem-solving abilities</li>
+                    <li><strong>🏊 Swimming:</strong> Regular swimmer maintaining physical fitness and mental well-being</li>
+                    <li><strong>🏓 Pickleball:</strong> Enthusiastic pickleball player, combining agility, coordination, and social interaction</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects" class="section">
+            <h1>Projects and Research</h1>
+
+            <div class="project-grid">
+                <div class="card">
+                    <h3>📐 Applications of First Order Differential Equations</h3>
+                    <p><strong>When:</strong> April 2024</p>
+                    
+                    <h4>What is this project?</h4>
+                    <p>A theory project to learn about how first-order differential equations are used in real life. This project connected math, physics, biology, and health.</p>
+                    
+                    <h4>Topics I studied:</h4>
+                    <ul>
+                        <li><strong>Radioactive Decay:</strong> How radioactive materials decay over time</li>
+                        <li><strong>Drug Distribution in Human Body:</strong> How medicines move through the body</li>
+                        <li><strong>Counter-measures to Control HIV:</strong> How to understand and control HIV spread</li>
+                    </ul>
+
+                    <h4>What I did:</h4>
+                    <ul>
+                        <li>Solved differential equations</li>
+                        <li>Created mathematical models</li>
+                        <li>Read research papers about real-world uses</li>
+                        <li>Made graphs to show solutions</li>
+                    </ul>
+
+                    <h4>What I learned:</h4>
+                    <ul>
+                        <li>Understood how math is used in real problems</li>
+                        <li>Created models to explain natural things</li>
+                        <li>Learned to connect theory with practice</li>
+                        <li>Improved my research skills</li>
+                    </ul>
+
+                    <h4>Challenges:</h4>
+                    <p><strong>Problem:</strong> Hard to connect math theory to real life</p>
+                    <p><strong>Solution:</strong> Read many papers and talked to experts</p>
+                    
+                    <p><strong>Problem:</strong> Making complex math easy to understand</p>
+                    <p><strong>Solution:</strong> Made pictures and explained step by step</p>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Eigen-values of Graphs</h3>
+                    <p><strong>When:</strong> November 2023</p>
+                    
+                    <h4>What is this project?</h4>
+                    <p>A group project about graph theory and eigen-values. This project used discrete mathematics and linear algebra.</p>
+                    
+                    <h4>What we did:</h4>
+                    <ul>
+                        <li>Learned about eigen-values in graphs</li>
+                        <li>Showed how eigen-values are used</li>
+                        <li>Studied different ways to show graphs</li>
+                        <li>Worked together as a team</li>
+                    </ul>
+
+                    <h4>Topics we covered:</h4>
+                    <ul>
+                        <li><strong>Max/Min Degree:</strong> Studied vertex degrees in networks</li>
+                        <li><strong>Graph Representation using Petersen Graph:</strong> Learned about special graph structures</li>
+                        <li><strong>Eigen-value Properties:</strong> Studied matrices in graphs</li>
+                        <li><strong>Uses:</strong> Network connections and graph analysis</li>
+                    </ul>
+
+                    <h4>How we did it:</h4>
+                    <ul>
+                        <li>Used matrices to represent graphs</li>
+                        <li>Calculated eigen-values</li>
+                        <li>Made pictures of graphs</li>
+                        <li>Worked together and presented to class</li>
+                    </ul>
+
+                    <h4>What we achieved:</h4>
+                    <ul>
+                        <li>Presented complex math to other students</li>
+                        <li>Connected linear algebra with graph theory</li>
+                        <li>Improved teamwork and presentation skills</li>
+                        <li>Created visual examples</li>
+                    </ul>
+
+                    <h4>Challenges:</h4>
+                    <p><strong>Problem:</strong> Hard to explain eigen-values in simple way</p>
+                    <p><strong>Solution:</strong> Used Petersen Graph as example to show calculations</p>
+                    
+                    <p><strong>Problem:</strong> Working together as team</p>
+                    <p><strong>Solution:</strong> Had regular meetings and divided work clearly</p>
+                </div>
+
+                <div class="card">
+                    <h3>💻 Programming Projects</h3>
+                    <p><strong>When:</strong> 2023-2024</p>
+                    
+                    <h4>What are these projects?</h4>
+                    <p>Programming projects using C and Java. These projects show my skills in data structures and problem-solving.</p>
+                    
+                    <h4>What I built:</h4>
+                    <ul>
+                        <li><strong>Sorting Programs:</strong> Different ways to sort data</li>
+                        <li><strong>Data Structures:</strong> Lists, trees, and other structures in C and Java</li>
+                        <li><strong>Object-Oriented Programs:</strong> Programs using Java OOP concepts</li>
+                        <li><strong>Problem-Solving:</strong> Solutions to different coding problems</li>
+                    </ul>
+
+                    <h4>How I did it:</h4>
+                    <ul>
+                        <li>Wrote and tested code</li>
+                        <li>Made programs run faster</li>
+                        <li>Fixed bugs and errors</li>
+                        <li>Used good programming style</li>
+                    </ul>
+
+                    <h4>What I learned:</h4>
+                    <ul>
+                        <li>Better at solving programming problems</li>
+                        <li>Write clear and working code</li>
+                        <li>Test and debug programs</li>
+                        <li>Use data structures correctly</li>
+                    </ul>
+
+                    <h4>Challenges:</h4>
+                    <p><strong>Problem:</strong> Making programs work with large data</p>
+                    <p><strong>Solution:</strong> Used better data structures and algorithms</p>
+                    
+                    <p><strong>Problem:</strong> Managing memory in C programs</p>
+                    <p><strong>Solution:</strong> Learned proper memory management techniques</p>
+                </div>
+            </div>
+        </section>
+
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section id="skills" class="section">
+            <h1>Skill Development</h1>
+
+            <h2>Technical Skills</h2>
+            <div class="skill-grid">
+                <div class="skill-item">
+                    <h3>C Programming</h3>
+                    <p>Programming for data structures and algorithms</p>
+                </div>
+
+                <div class="skill-item">
+                    <h3>Java Programming</h3>
+                    <p>Object-oriented programming and data structures</p>
+                </div>
+
+                <div class="skill-item">
+                    <h3>Data Structures</h3>
+                    <p>Arrays, linked lists, trees, graphs, and more</p>
+                </div>
+
+                <div class="skill-item">
+                    <h3>Discrete Mathematical Structures</h3>
+                    <p>Graph theory, set theory, and mathematical logic</p>
+                </div>
+
+                <div class="skill-item">
+                    <h3>Computational Thinking</h3>
+                    <p>Problem solving and algorithm design</p>
+                </div>
+            </div>
+
+            <h2>Soft Skills</h2>
+            <div class="skill-grid">
+                <div class="skill-item">
+                    <h3>Fast Learner</h3>
+                    <p>Learn new things quickly and adapt to new situations</p>
+                </div>
+
+                <div class="skill-item">
+                    <h3>Team Player</h3>
+                    <p>Work well with others in group projects and activities</p>
+                </div>
+
+                <div class="skill-item">
+                    <h3>Communication</h3>
+                    <p>Good at explaining ideas and working with people</p>
+                </div>
+
+                <div class="skill-item">
+                    <h3>Problem-Solving</h3>
+                    <p>Think step by step to solve difficult problems</p>
+                </div>
+            </div>
+        </section>
+
